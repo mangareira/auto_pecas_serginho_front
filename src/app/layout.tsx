@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/providers/providers";
 import { Toaster } from "sonner";
+import { SheetProvider } from "@/providers/sheet-provider";
 
 export const metadata: Metadata = {
   title: "Auto peças serginho",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <Toaster />
+          <SheetProvider />
           {children}
         </Providers>
       </body>

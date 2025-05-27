@@ -9,7 +9,7 @@ export default function DashLayout({
   return (
     <>
       <Header />
-      <main className="px-4 lg:px-14">
+      <main className="px-14">
         {children}
       </main>
     </>
