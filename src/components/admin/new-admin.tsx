@@ -38,7 +38,7 @@ export const NewAdminSheet = () => {
           defaultValues={{
             name: '',
             email:'',
-            password: '',
+            password: ""
           }}
           disable={isPending}
           onSubmit={onSubmit}

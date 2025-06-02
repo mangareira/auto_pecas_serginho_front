@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 export const useGetAdmins = () => {
   const query = useQuery({
-    queryKey: ['admin'],
+    queryKey: ['admins'],
     queryFn: async () => {
       const response = await api.get<AdminValues>("/admin")
       if (response.status === 400) throw new Error('failed to fecth account');

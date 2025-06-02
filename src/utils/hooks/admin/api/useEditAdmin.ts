@@ -1,23 +1,23 @@
+import api from '@/lib/axios';
 import { AdminValues } from '@/utils/schemas/new-admin-dto';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import api from '@/lib/axios';
 
-export const useCreateAdmin = () => {
+export const useEditAdmin = (id?: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation<AdminValues, Error, AdminValues>({
     mutationFn: async (json) => {
-      const res = await api.post<AdminValues>("/admin", json)
-      if(res.status === 400) throw new Error('Falha ao criar conta');
-      return res.data;
+      const res = await api.put<AdminValues>(`/admin/${id}`, json)
+      
+      return res.data
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['admin', { id }] });
       queryClient.invalidateQueries({ queryKey: ['admins'] });
-      queryClient.invalidateQueries({ queryKey: ['admin'] });
-      toast.success('Conta criada com sucesso');
+      toast.success('Administrador autalizado');
     },
     onError: () => {
-      toast.error('Falha ao criar conta');
+      toast.error('Falha ao autalizar o administrador');
     },
   });
   return mutation;

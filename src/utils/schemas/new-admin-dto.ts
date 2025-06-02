@@ -9,7 +9,8 @@ export const adminFormSchema = z.object({
   password: z
     .string()
     .min(1, { message: "A senha é obrigatória." })
-    .min(6, { message: "A senha deve ter pelo menos 6 caracteres." }),
+    .min(6, { message: "A senha deve ter pelo menos 6 caracteres." })
+    .optional(),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
