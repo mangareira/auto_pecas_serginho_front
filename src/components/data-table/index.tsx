@@ -9,6 +9,7 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  Row,
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -24,13 +25,14 @@ import {
 } from '@/components/ui/table';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useConfirm } from '@/utils/hooks/useConfirm';
 
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   filterkey: string;
-  // onDelete: (row: Row<TData>[]) => void;
+  onDelete: (row: Row<TData>[]) => void;
   disabled?: boolean;
   placeholder?: string;
 }
@@ -39,7 +41,7 @@ export default function DataTable<TData, TValue>({
   columns,
   data,
   filterkey,
-  // onDelete,
+  onDelete,
   disabled,
   placeholder,
 }: DataTableProps<TData, TValue>) {
@@ -48,6 +50,11 @@ export default function DataTable<TData, TValue>({
     []
   );
   const [rowSelection, setRowSelection] = React.useState({});
+  const [ConfimationDialog, confirm] = useConfirm(
+    'Você tem certeza ?',
+    'Você esta prestes a deletar varios administradores'
+  )
+
   const table = useReactTable({
     data,
     columns,
@@ -67,6 +74,7 @@ export default function DataTable<TData, TValue>({
 
   return (
     <div className="">
+      <ConfimationDialog />
       <div className="flex items-center py-4">
         <Input
           className="max-w-sm"
@@ -83,11 +91,11 @@ export default function DataTable<TData, TValue>({
             size="sm"
             variant="outline"
             onClick={async () => {
-              // const ok = await confirm();
-              // if (ok) {
-              //   onDelete(table.getFilteredSelectedRowModel().rows);
-              //   table.resetRowSelection();
-              // }
+              const ok = await confirm();
+              if (ok) {
+                onDelete(table.getFilteredSelectedRowModel().rows);
+                table.resetRowSelection();
+              }
             }}
           >
             <Trash className="size-4 mr-2" />

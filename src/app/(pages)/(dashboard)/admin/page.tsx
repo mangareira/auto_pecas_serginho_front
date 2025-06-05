@@ -8,6 +8,7 @@ import { columns } from './columns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetAdmins } from '@/utils/hooks/admin/api/useGetAdmins';
 import { useNewAdmin } from '@/utils/hooks/admin/hooks/use-new-admin';
+import { useDeleteBulkAdmin } from '@/utils/hooks/admin/api/useDeleteBulkAdmin';
 
 
 export default function AccountPage() {
@@ -15,6 +16,11 @@ export default function AccountPage() {
   const { data, isLoading } = useGetAdmins()
 
   const { onOpen } = useNewAdmin()
+
+  const { mutate } = useDeleteBulkAdmin()
+
+
+  const tableData = data|| []
 
   if (isLoading) {
     return (
@@ -46,14 +52,14 @@ export default function AccountPage() {
         <CardContent>
           <DataTable
             columns={columns}
-            data={data}
+            data={tableData}
             disabled={isLoading}
             filterkey="name"
             placeholder="nome"
-            // onDelete={(row) => {
-            //   const ids = row.map((r) => r.original.id);
-            //   deleteAccounts.mutate({ ids });
-            // }}
+            onDelete={(row) => {
+              const ids = row.map((r) => r.original.id);
+              mutate(ids);
+            }}
           />
         </CardContent>
       </Card>
