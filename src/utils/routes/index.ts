@@ -8,8 +8,16 @@ export const routes = [
     label: 'Serviços',
   },
   {
-    href: '/employess',
-    label: 'Funcionarios e ajudantes',
+    href: '/employees',
+    label: 'Colaboradores',
+  },
+  {
+    href: '/helpers',
+    label: 'Ajudantes',
+  },
+  {
+    href: '/type_services',
+    label: 'Tipos de serviços',
   },
   {
     href: '/admin',

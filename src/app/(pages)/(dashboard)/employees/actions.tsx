@@ -9,9 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useOpenAdmin } from '@/utils/hooks/admin/hooks/use-open-admin';
-import { useDeleteAdmin } from '@/utils/hooks/admin/api/useDeleteAdmin';
 import { useConfirm } from '@/utils/hooks/useConfirm';
+import { useOpenEmployee } from '@/utils/hooks/employee/hooks/use-open-employee';
+import { useDeleteEMployee } from '@/utils/hooks/employee/api/useDeleteEmployee';
 
 type Props = {
   id: string;
@@ -23,8 +23,8 @@ export const Actions = ({ id }: Props) => {
     'Você esta prestes a deletar uma administrador'
   )
   
-  const { onOpen } = useOpenAdmin();
-  const { mutate, isPending } = useDeleteAdmin(id);
+  const { onOpen } = useOpenEmployee();
+  const { mutate, isPending } = useDeleteEMployee(id);
 
   const onDelete = async () => {
     const ok = await confirm();

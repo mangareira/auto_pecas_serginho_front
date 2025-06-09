@@ -7,7 +7,7 @@ export const Navigation = () => {
 
   const pathName = usePathname();
    return (
-    <div className="hidden lg:flex items-center gap-x-2 overflow-x-auto">
+    <div className="hidden lg:flex items-center gap-x-2">
       {routes.map((r) => (
         <NavButton
           key={r.href}

@@ -1,7 +1,7 @@
-import { OpenAdminType } from '@/utils/interfaces/open-admin-type';
+import { OpenType } from '@/utils/interfaces/open-type';
 import { create } from 'zustand';
 
-export const useOpenAdmin = create<OpenAdminType>((set) => ({
+export const useOpenAdmin = create<OpenType>((set) => ({
   id: undefined,
   isOpen: false,
   onClose: () => set({ isOpen: false, id: undefined }),

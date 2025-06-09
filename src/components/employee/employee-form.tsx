@@ -10,23 +10,30 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { adminFormSchema, AdminFormValues } from '@/utils/schemas/new-admin-dto';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProps } from '@/utils/interfaces/form-props';
+import { employeeValues, EmployeeValues } from '@/utils/schemas/employee-dto';
+import { MaskedInput } from '../ui/masked-input';
 
-export const AdminForm = ({
+export const EmployeeForm = ({
   onSubmit,
   defaultValues,
   disable,
   id,
   onDelete,
-}: FormProps<AdminFormValues>) => {
-  const form = useForm<AdminFormValues>({
-    resolver: zodResolver(adminFormSchema),
+}: FormProps<EmployeeValues>) => {
+  const form = useForm<EmployeeValues>({
+    resolver: zodResolver(employeeValues),
     defaultValues: defaultValues,
   });
-  const handleSubmit = (values: AdminFormValues) => {
-    onSubmit(values);
+  const handleSubmit = (values: EmployeeValues) => {
+    const cleanedValues = {
+      ...values,
+      phone: values.phone.replace(/\D/g, ''),
+    };
+    console.log(cleanedValues);
+    
+    onSubmit(cleanedValues);
   };
 
   const handleDelete = () => {
@@ -48,7 +55,7 @@ export const AdminForm = ({
               <FormControl>
                 <Input
                   disabled={disable}
-                  placeholder="Nome do administrativo"
+                  placeholder="Nome do Colaborador"
                   {...field}
                 />
               </FormControl>
@@ -57,33 +64,15 @@ export const AdminForm = ({
         />
         <FormField
           control={form.control}
-          name="email"
+          name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Telefone</FormLabel>
               <FormControl>
-                <Input
+                <MaskedInput
+                  field={field}
+                  placeholder="(99) 99999-9999"
                   disabled={disable}
-                  placeholder="exemple@gmail.com"
-                  type='email'
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Senha</FormLabel>
-              <FormControl>
-                <Input
-                  disabled={disable}
-                  placeholder="••••••••"
-                  type='password'
-                  {...field}
                 />
               </FormControl>
             </FormItem>
@@ -101,7 +90,7 @@ export const AdminForm = ({
             onClick={handleDelete}
           >
             <Trash className="size-4 mr-2" />
-            Deletar administrador
+            Deletar colaborador
           </Button>
         )}
       </form>

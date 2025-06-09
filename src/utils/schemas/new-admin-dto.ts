@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const adminFormSchema = z.object({
+  id: z.string().optional(),
   name: z.string(),
   email: z
     .string()
@@ -16,9 +17,7 @@ export const adminFormSchema = z.object({
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const valueAdmin = adminFormSchema.omit({
   password: true
-}).merge(z.object({
-  id: z.string()
-}))
+})
 
 export type AdminFormValues = z.infer<typeof adminFormSchema>;
 export type AdminValues = z.infer<typeof valueAdmin>
