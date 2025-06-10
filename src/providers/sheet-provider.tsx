@@ -2,6 +2,7 @@
 
 import { EditAdminSheet } from '@/components/admin/edit-admin';
 import { NewAdminSheet } from '@/components/admin/new-admin';
+import { EditEmployeeSheet } from '@/components/employee/edit-employee';
 import { NewEmployeeSheet } from '@/components/employee/new-employee';
 import { useMountedState } from 'react-use';
 
@@ -14,6 +15,7 @@ export const SheetProvider = () => {
       <NewAdminSheet />
       <EditAdminSheet /> 
       <NewEmployeeSheet />
+      <EditEmployeeSheet />
     </>
   );
 };

@@ -31,7 +31,6 @@ export const EmployeeForm = ({
       ...values,
       phone: values.phone.replace(/\D/g, ''),
     };
-    console.log(cleanedValues);
     
     onSubmit(cleanedValues);
   };

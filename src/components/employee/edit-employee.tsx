@@ -6,29 +6,29 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 
-import { AdminForm } from './admin-form';
-import { useOpenAdmin } from '@/utils/hooks/admin/hooks/use-open-admin';
-import { useGetAdmin } from '@/utils/hooks/admin/api/useGetAdmin';
 import { Loader2 } from 'lucide-react';
-import { useEditAdmin } from '@/utils/hooks/admin/api/useEditAdmin';
-import { AdminValues } from '@/utils/schemas/new-admin-dto';
 import { useConfirm } from '@/utils/hooks/useConfirm';
-import { useDeleteAdmin } from '@/utils/hooks/admin/api/useDeleteAdmin';
+import { useOpenEmployee } from '@/utils/hooks/employee/hooks/use-open-employee';
+import { useDeleteEMployee } from '@/utils/hooks/employee/api/useDeleteEmployee';
+import { useGetEmployee } from '@/utils/hooks/employee/api/useGetEmployee';
+import { useEditEmployee } from '@/utils/hooks/employee/api/useEditEmployee';
+import { EmployeeValues } from '@/utils/schemas/employee-dto';
+import { EmployeeForm } from './employee-form';
 
-export const EditAdminSheet = () => {
-  const { isOpen, onClose, id } = useOpenAdmin();
+export const EditEmployeeSheet = () => {
+  const { isOpen, onClose, id } = useOpenEmployee();
   const [ConfirmDialog, confirm] = useConfirm(
     'Você tem certeza ?',
-    'Você esta prestes a deletar uma administrador'
+    'Você esta prestes a deletar um colaborador'
   );
 
-  const {mutate: mutateDelete} = useDeleteAdmin(id)
+  const {mutate: mutateDelete} = useDeleteEMployee(id)
 
-  const { data, isLoading, isPending } = useGetAdmin(id)
+  const { data, isLoading, isPending } = useGetEmployee(id)
 
-  const { mutate, isPending: isPendingEdit } = useEditAdmin(id)
+  const { mutate, isPending: isPendingEdit } = useEditEmployee(id)
 
-  const onSubmit = (values: AdminValues) => {
+  const onSubmit = (values: EmployeeValues) => {
     mutate(values, {
       onSuccess: () => {
         onClose();
@@ -49,10 +49,15 @@ export const EditAdminSheet = () => {
   };
 
   const defaultValues = data
-    ? data
+    ? {
+      id: data.id,
+      name: data.name,
+      phone: data.phone
+    }
     : {
+        id: '',
         name: '',
-        email: '',
+        phone: '',
       };
 
   return (
@@ -61,15 +66,15 @@ export const EditAdminSheet = () => {
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent className="space-y-4 ">
           <SheetHeader>
-            <SheetTitle>Editar Administrativo</SheetTitle>
-            <SheetDescription>Edite um administrativo existente</SheetDescription>
+            <SheetTitle>Editar um Colaborador</SheetTitle>
+            <SheetDescription>Edite um Colaborador existente</SheetDescription>
           </SheetHeader>
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center">
               <Loader2 className="size-4 text-muted-foreground animate-spin" />
             </div>
           ) : (
-            <AdminForm
+            <EmployeeForm
               defaultValues={defaultValues}
               disable={isPending && isPendingEdit}
               id={id}

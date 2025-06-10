@@ -7,9 +7,15 @@ export const useEditEmployee = (id?: string) => {
   const queryClient = useQueryClient();
   const mutation = useMutation<EmployeeValues, Error, EmployeeValues>({
     mutationFn: async (json) => {
-      const res = await api.put<EmployeeValues>(`/employees/${id}`, json)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { services, ...dataWithoutServices } = json;
       
-      return res.data
+      const res = await api.put<EmployeeValues>(
+        `/employees/${id}`, 
+        dataWithoutServices
+      );
+      
+      return res.data;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employee', { id }] });

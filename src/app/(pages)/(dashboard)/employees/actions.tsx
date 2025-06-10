@@ -1,6 +1,7 @@
 'use client';
 
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { MdDesignServices } from 'react-icons/md'
 
 import { Button } from '@/components/ui/button';
 import {
@@ -20,7 +21,7 @@ type Props = {
 export const Actions = ({ id }: Props) => {
   const [ConfimationDialog, confirm] = useConfirm(
     'Você tem certeza ?',
-    'Você esta prestes a deletar uma administrador'
+    'Você esta prestes a deletar um colaborador'
   )
   
   const { onOpen } = useOpenEmployee();
@@ -50,6 +51,13 @@ export const Actions = ({ id }: Props) => {
           >
             <Edit className="size-4 mr-2" />
             Editar
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            disabled={isPending}
+            // onClick={() => onOpen(id)}
+          >
+            <MdDesignServices className="size-4 mr-2" />
+            Serviços
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={isPending}

@@ -38,6 +38,7 @@ export const NewEmployeeSheet = () => {
           defaultValues={{
             name: '',
             phone: '',
+            id: ''
           }}
           disable={isPending}
           onSubmit={onSubmit}
