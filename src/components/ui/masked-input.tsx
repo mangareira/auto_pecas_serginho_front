@@ -2,22 +2,23 @@
 import { useCallback, useEffect } from 'react';
 import { useIMask } from 'react-imask';
 import type { InputMaskElement } from 'imask';
-import type { ControllerRenderProps } from 'react-hook-form';
+import type { ControllerRenderProps, FieldValues, Path } from 'react-hook-form';
 
 import { Input } from '@/components/ui/input';
-import { EmployeeValues } from '@/utils/schemas/employee-dto';
 
-interface MaskedInputProps extends React.ComponentProps<'input'> {
-  field: ControllerRenderProps<EmployeeValues, "phone">;
+interface MaskedInputProps<TFieldValues extends FieldValues> 
+  extends React.ComponentProps<'input'> {
+  field: ControllerRenderProps<TFieldValues, Path<TFieldValues>>;
+  mask: string;
 }
 
-export function MaskedInput({ field, ...props }: MaskedInputProps) {
+export function MaskedInput<I extends FieldValues>({ field, mask ,...props }: MaskedInputProps<I>) {
   const { ref: maskRef, setValue } = useIMask(
     {
-      mask: '(00) 00000-0000',
+      mask,
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    { onAccept: (value: any) => field.onChange(value) }
+     
+    { onAccept: (value: string) => field.onChange(value) }
   );
 
   useEffect(() => {

@@ -33,17 +33,6 @@ api.interceptors.response.use(
     if (error.response) {
       console.error('API Error Response:', error.response.data);
       console.error('Status:', error.response.status);
-
-      if (error.response.status === 401) {
-        if (typeof window !== 'undefined') {
-          alert('Sua sessão pode ter expirado ou você não está autenticado. Tente recarregar a página ou fazer login novamente.');
-        }
-      } else if (error.response.status === 403) {
-        alert('Você não tem permissão para acessar este recurso.');
-      }
-    } else if (error.request) {
-      console.error('API No Response:', error.request);
-      alert('Não foi possível conectar ao servidor. Verifique sua internet.');
     } else {
       console.error('Axios Config Error:', error.message);
     }

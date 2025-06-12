@@ -12,22 +12,22 @@ import {
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProps } from '@/utils/interfaces/form-props';
-import { employeeValues, EmployeeValues } from '@/utils/schemas/employee-dto';
 import { MaskedInput } from '../ui/masked-input';
+import { helperValues, HelperValues } from '@/utils/schemas/helper-dto';
 
-export const EmployeeForm = ({
+export const HelperForm = ({
   onSubmit,
   defaultValues,
   disable,
   id,
   onDelete,
-}: FormProps<EmployeeValues>) => {
-  const form = useForm<EmployeeValues>({
-    resolver: zodResolver(employeeValues),
+}: FormProps<HelperValues>) => {
+  const form = useForm<HelperValues>({
+    resolver: zodResolver(helperValues),
     defaultValues: defaultValues,
   });
-  const handleSubmit = (values: EmployeeValues) => {
-     const cleanedValues = {
+  const handleSubmit = (values: HelperValues) => {
+    const cleanedValues = {
       ...values,
       phone: values.phone.replace(/\D/g, ''),
     };
@@ -90,7 +90,7 @@ export const EmployeeForm = ({
             onClick={handleDelete}
           >
             <Trash className="size-4 mr-2" />
-            Deletar colaborador
+            Deletar Ajudante
           </Button>
         )}
       </form>
