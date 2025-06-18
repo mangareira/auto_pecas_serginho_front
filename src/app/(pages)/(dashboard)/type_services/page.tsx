@@ -6,28 +6,20 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import DataTable from '@/components/data-table';
 import { columns } from './columns';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGetEmployees } from '@/utils/hooks/employee/api/useGetEmployees';
-import { useNewEmployee } from '@/utils/hooks/employee/hooks/use-new-employee';
-import { useDeleteBulkEmployee } from '@/utils/hooks/employee/api/useDeleteBulkEmployee';
-import { formatPhoneNumber } from '@/lib/utils';
+import { useGetTypeServices } from '@/utils/hooks/type-services/api/useGetTypeServices';
+import { useNewTypeServices } from '@/utils/hooks/type-services/hooks/use-new-type-services';
+import { useDeleteBulkTypeServices } from '@/utils/hooks/type-services/api/useDeleteBulkTypeServices';
+
+export default function TypePage() {
+
+  const { data, isLoading } = useGetTypeServices()
+
+  const { onOpen } = useNewTypeServices()
+
+  const { mutate } = useDeleteBulkTypeServices()
 
 
-export default function AccountPage() {
-
-  const { data, isLoading } = useGetEmployees()
-
-  const { onOpen } = useNewEmployee()
-
-  const { mutate } = useDeleteBulkEmployee()
-
-
-  const tableData = !isLoading && data ? data.map((v) => {
-    return {
-      ...v,
-      services: v.services?.length || 0,
-      phone: formatPhoneNumber(v.phone)
-    }
-  }) : []
+  const tableData = !isLoading && data ? data : []
 
   if (isLoading) {
     return (
@@ -50,7 +42,7 @@ export default function AccountPage() {
     <div className="max-w-screen-2xl mx-auto w-full pb-10 mt-6">
       <Card className="border-none drop-shadow-sm">
         <CardHeader className="gap-y-2 flex-row items-center justify-between">
-          <CardTitle className="text-xl line-clamp-1">Colaboradores</CardTitle>
+          <CardTitle className="text-xl line-clamp-1">Tipos de Serviços</CardTitle>
           <Button size={'sm'} onClick={onOpen}>
             <Plus className="size-4 mr-2" />
             Adcionar

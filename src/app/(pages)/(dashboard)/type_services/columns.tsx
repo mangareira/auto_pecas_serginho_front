@@ -6,13 +6,14 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Actions } from './actions';
+import { formatCurrency } from '@/lib/utils';
+import { Badge } from '@/components/ui/badge';
 
 
 export type ResponseType = {
   id: string,
   name: string,
-  phone: string,
-  services: number
+  value: number | string
 }
 
 export const columns: ColumnDef<ResponseType>[] = [
@@ -53,30 +54,27 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
   },
   {
-    accessorKey: 'phone',
+    accessorKey: 'value',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Telefone
+          Valor
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-  },
-  {
-    accessorKey: 'services',
-    header: ({ column }) => {
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue('value'));
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        <Badge
+          className="text-xs px-3.5 py-2.5"
+          variant={amount < 0 ? 'destructive' : 'primary'}
         >
-            Qtd. de Serviços
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+          {formatCurrency(amount)}
+        </Badge>
       );
     },
   },

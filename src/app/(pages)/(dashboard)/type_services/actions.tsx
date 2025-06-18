@@ -1,7 +1,6 @@
 'use client';
 
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
-import { MdDesignServices } from 'react-icons/md'
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,8 +10,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useConfirm } from '@/utils/hooks/useConfirm';
-import { useOpenEmployee } from '@/utils/hooks/employee/hooks/use-open-employee';
-import { useDeleteEMployee } from '@/utils/hooks/employee/api/useDeleteEmployee';
+import { useOpenTypeServices } from '@/utils/hooks/type-services/hooks/use-open-type-services';
+import { useDeleteTypeServices } from '@/utils/hooks/type-services/api/useDeleteTypeServices';
 
 type Props = {
   id: string;
@@ -21,11 +20,11 @@ type Props = {
 export const Actions = ({ id }: Props) => {
   const [ConfimationDialog, confirm] = useConfirm(
     'Você tem certeza ?',
-    'Você esta prestes a deletar um colaborador'
+    'Você esta prestes a deletar um tipo de serviço'
   )
   
-  const { onOpen } = useOpenEmployee();
-  const { mutate, isPending } = useDeleteEMployee(id);
+  const { onOpen } = useOpenTypeServices();
+  const { mutate, isPending } = useDeleteTypeServices(id);
 
   const onDelete = async () => {
     const ok = await confirm();
@@ -51,13 +50,6 @@ export const Actions = ({ id }: Props) => {
           >
             <Edit className="size-4 mr-2" />
             Editar
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            disabled={isPending}
-            // onClick={() => onOpen(id)}
-          >
-            <MdDesignServices className="size-4 mr-2" />
-            Serviços
           </DropdownMenuItem>
           <DropdownMenuItem
             disabled={isPending}

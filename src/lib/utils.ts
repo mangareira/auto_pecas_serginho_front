@@ -9,11 +9,19 @@ export function convertAmountFromMiliunitis(amount: number) {
   return amount / 1000;
 }
 
-export function convertAmountToMiliunitis(amount: number) {
-  return Math.round(amount * 1000);
+export function convertAmountToMiliunitis(amount: string) {
+    const cleanValue = amount
+    .replace(/\./g, '') 
+    .replace(',', '.');     
+  
+  const amountConverted = parseFloat(cleanValue);
+
+  return Math.round(amountConverted * 1000)
 }
 
 export function formatCurrency(value: number) {
+  value = convertAmountFromMiliunitis(value)
+
   return Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
