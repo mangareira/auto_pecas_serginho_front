@@ -35,6 +35,8 @@ interface DataTableProps<TData, TValue> {
   onDelete: (row: Row<TData>[]) => void;
   disabled?: boolean;
   placeholder?: string;
+  title: string,
+  text: string
 }
 
 export default function DataTable<TData, TValue>({
@@ -44,6 +46,8 @@ export default function DataTable<TData, TValue>({
   onDelete,
   disabled,
   placeholder,
+  text,
+  title
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -51,8 +55,8 @@ export default function DataTable<TData, TValue>({
   );
   const [rowSelection, setRowSelection] = React.useState({});
   const [ConfimationDialog, confirm] = useConfirm(
-    'Você tem certeza ?',
-    'Você esta prestes a deletar varios administradores'
+    title,
+    text
   )
 
   const table = useReactTable({

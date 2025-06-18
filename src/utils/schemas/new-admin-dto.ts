@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const adminFormSchema = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   name: z.string(),
   email: z
     .string()

@@ -59,6 +59,8 @@ export default function TypePage() {
               const ids = row.map((r) => r.original.id);
               mutate(ids);
             }}
+            title='Tem certeza ?'
+            text='Você esta prestes a deletar alguns tipos de serviços'
           />
         </CardContent>
       </Card>

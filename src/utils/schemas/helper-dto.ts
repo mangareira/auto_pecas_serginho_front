@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const helperValues = z.object({
-  id: z.string().optional(),
+  id: z.string(),
   name: z.string(),
   phone: z.string(),
   services: z.array(z.object({})).optional()

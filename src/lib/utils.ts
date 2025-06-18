@@ -20,8 +20,6 @@ export function convertAmountToMiliunitis(amount: string) {
 }
 
 export function formatCurrency(value: number) {
-  value = convertAmountFromMiliunitis(value)
-
   return Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',

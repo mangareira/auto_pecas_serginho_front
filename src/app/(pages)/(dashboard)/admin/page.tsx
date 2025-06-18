@@ -20,7 +20,7 @@ export default function AccountPage() {
   const { mutate } = useDeleteBulkAdmin()
 
 
-  const tableData = data|| []
+  const tableData = data || []
 
   if (isLoading) {
     return (
@@ -60,6 +60,8 @@ export default function AccountPage() {
               const ids = row.map((r) => r.original.id);
               mutate(ids);
             }}
+            title='Tem certeza ?'
+            text='Você esta prestes a deletar alguns admininstradores'
           />
         </CardContent>
       </Card>

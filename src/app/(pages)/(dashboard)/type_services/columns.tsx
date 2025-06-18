@@ -6,7 +6,7 @@ import { ArrowUpDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Actions } from './actions';
-import { formatCurrency } from '@/lib/utils';
+import { convertAmountFromMiliunitis, formatCurrency } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 
 
@@ -67,7 +67,7 @@ export const columns: ColumnDef<ResponseType>[] = [
       );
     },
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('value'));
+      const amount = convertAmountFromMiliunitis(parseFloat(row.getValue('value')));
       return (
         <Badge
           className="text-xs px-3.5 py-2.5"

@@ -66,6 +66,8 @@ export default function HelperPage() {
               const ids = row.map((r) => r.original.id);
               mutate(ids);
             }}
+            title='Tem certeza ?'
+            text='Você esta prestes a deletar alguns ajudantes'
           />
         </CardContent>
       </Card>
