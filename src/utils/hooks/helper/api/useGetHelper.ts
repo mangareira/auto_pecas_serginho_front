@@ -2,7 +2,7 @@ import api from '@/lib/axios';
 import { HelperValues } from '@/utils/schemas/helper-dto';
 import { useQuery } from '@tanstack/react-query';
 
-export const useGetHelper = (id?: string) => {
+export const useGetHelper = (id?: string | null) => {
   const query = useQuery({
     enabled: !!id,
     queryKey: ['helper', { id }],

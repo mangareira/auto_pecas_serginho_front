@@ -12,7 +12,7 @@ import { useDeleteBulkEmployee } from '@/utils/hooks/employee/api/useDeleteBulkE
 import { formatPhoneNumber } from '@/lib/utils';
 
 
-export default function AccountPage() {
+export default function EmployeePage() {
 
   const { data, isLoading } = useGetEmployees()
 

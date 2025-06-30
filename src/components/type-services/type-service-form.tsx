@@ -68,7 +68,6 @@ export const TypeServiceForm = ({
             </FormItem>
           )}
           />
-          <p>{form.formState.errors.value?.message}</p>
         <Button className="w-full" disabled={disable}>
           {id ? 'Salvar mudanças' : 'Criar conta'}
         </Button>

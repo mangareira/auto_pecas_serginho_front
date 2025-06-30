@@ -36,6 +36,7 @@ export const NewHelperSheet = () => {
         </SheetHeader>
         <HelperForm
           defaultValues={{
+            id: '',
             name: '',
             phone: '',
           }}
