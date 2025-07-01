@@ -14,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProps } from '@/utils/interfaces/form-props';
 import { MaskedInput } from '../ui/masked-input';
 import { helperValues, HelperValues } from '@/utils/schemas/helper-dto';
+import { AmountInput } from '../amount-input';
 
 export const HelperForm = ({
   onSubmit,
@@ -74,6 +75,18 @@ export const HelperForm = ({
                   placeholder="(99) 99999-9999"
                   disabled={disable}
                 />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="value"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Valor do Serviço</FormLabel>
+              <FormControl>
+                <AmountInput disable={disable} placeholder='0.00' {...field} />
               </FormControl>
             </FormItem>
           )}

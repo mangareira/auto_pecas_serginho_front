@@ -19,6 +19,9 @@ import { MaskedInput } from '../ui/masked-input';
 import { Select } from '../select';
 import { ServiceFormProps } from '@/utils/interfaces/service-form-props';
 import { CheckBoxInput } from '../check-box-input';
+import { useEffect } from 'react';
+import { TotalValueDisplay } from '../total-value';
+import { cn } from '@/lib/utils';
 
 export const ServiceForm = ({
   onSubmit,
@@ -38,6 +41,50 @@ export const ServiceForm = ({
       enterprise_name: defaultValues?.enterprise_name || '',
     },
   });
+
+  useEffect(() => {
+    const calculateTotal = () => {
+      let total = 0;
+      
+      if (form.watch('type_services')) {
+        form.watch('type_services').forEach(serviceId => {
+          const service = typeServicesOptions.find(s => s.value === serviceId);
+          if (service) total += Number(service.cost) || 0;
+        });
+      }
+
+      const employeeId = form.watch('employeesId');
+      if (employeeId) {
+        const employee = employeeOptions.find(e => e.value === employeeId);
+        if (employee) total += Number(employee.cost) || 0;
+      }
+
+      const helperId = form.watch('helpersId');
+      if (helperId) {
+        const helper = helperOptions.find(h => h.value === helperId);
+        if (helper) total += Number(helper.cost) || 0;
+      }
+
+      const profitMargin = 1.2;
+      total = total * profitMargin;
+
+      form.setValue('value', total);
+    };
+
+    const subscription = form.watch((value, { name }) => {
+      if (name === 'type_services' || 
+          name === 'employeesId' || 
+          name === 'helpersId') {
+        calculateTotal();
+      }
+    });
+
+    calculateTotal();
+
+    return () => subscription.unsubscribe();
+  }, [employeeOptions, helperOptions, typeServicesOptions, form]);
+
+
   const handleSubmit = (values: ServicesValue) => {
     onSubmit({
       ...values,
@@ -250,6 +297,23 @@ export const ServiceForm = ({
                   field={field}
                   typeServiceOptions={typeServicesOptions}
                   disable={disable}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="value"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <TotalValueDisplay 
+                  value={field.value || '0'} 
+                  className={cn(
+                    "transition-all duration-300",
+                    Number(form.watch('value')) > 0 ? "bg-green-100/50 border-green-300" : ""
+                  )}
                 />
               </FormControl>
             </FormItem>

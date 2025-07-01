@@ -11,6 +11,7 @@ import { useNewEmployee } from '@/utils/hooks/employee/hooks/use-new-employee';
 import { useCreateEmployee } from '@/utils/hooks/employee/api/useCreateEmployee';
 import { EmployeeValues } from '@/utils/schemas/employee-dto';
 import { EmployeeForm } from './employee-form';
+import { convertAmountToMiliunitis } from '@/lib/utils';
 
 export const NewEmployeeSheet = () => {
   const { isOpen, onClose } = useNewEmployee();
@@ -18,7 +19,10 @@ export const NewEmployeeSheet = () => {
   const { mutate, isPending } = useCreateEmployee();
 
   const onSubmit = (values: EmployeeValues) => {
-    mutate(values, {
+    mutate({
+      ...values,
+      value: convertAmountToMiliunitis(String(values.value))
+    }, {
       onSuccess: () => {
         onClose();
       },
@@ -38,7 +42,8 @@ export const NewEmployeeSheet = () => {
           defaultValues={{
             name: '',
             phone: '',
-            id: ''
+            id: '',
+            value: ''
           }}
           disable={isPending}
           onSubmit={onSubmit}

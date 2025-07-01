@@ -1,5 +1,5 @@
 import api from '@/lib/axios';
-import { ServicesValue } from '@/utils/schemas/services-dto';
+import { ServicesResponse} from '@/utils/schemas/services-dto';
 import { useQuery } from '@tanstack/react-query';
 
 export const useGetService = (id?: string) => {
@@ -7,7 +7,7 @@ export const useGetService = (id?: string) => {
     enabled: !!id,
     queryKey: ['service', { id }],
     queryFn: async () => {
-      const response = await api.get<ServicesValue>(`/services/${id}`)
+      const response = await api.get<ServicesResponse>(`/services/${id}`)
       if (response.status === 400) throw new Error('failed to fecth service');
       const service = response.data;
       return service;

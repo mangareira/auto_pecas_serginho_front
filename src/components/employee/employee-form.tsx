@@ -14,6 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProps } from '@/utils/interfaces/form-props';
 import { employeeValues, EmployeeValues } from '@/utils/schemas/employee-dto';
 import { MaskedInput } from '../ui/masked-input';
+import { AmountInput } from '../amount-input';
 
 export const EmployeeForm = ({
   onSubmit,
@@ -31,7 +32,6 @@ export const EmployeeForm = ({
       ...values,
       phone: values.phone.replace(/\D/g, ''),
     };
-    
     onSubmit(cleanedValues);
   };
 
@@ -74,6 +74,18 @@ export const EmployeeForm = ({
                   placeholder="(99) 99999-9999"
                   disabled={disable}
                 />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="value"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Valor do Serviço</FormLabel>
+              <FormControl>
+                <AmountInput disable={disable} placeholder='0.00' {...field} />
               </FormControl>
             </FormItem>
           )}

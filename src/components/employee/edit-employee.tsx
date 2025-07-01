@@ -14,6 +14,7 @@ import { useGetEmployee } from '@/utils/hooks/employee/api/useGetEmployee';
 import { useEditEmployee } from '@/utils/hooks/employee/api/useEditEmployee';
 import { EmployeeValues } from '@/utils/schemas/employee-dto';
 import { EmployeeForm } from './employee-form';
+import { convertAmountFromMiliunitis, convertAmountToMiliunitis } from '@/lib/utils';
 
 export const EditEmployeeSheet = () => {
   const { isOpen, onClose, id } = useOpenEmployee();
@@ -29,7 +30,10 @@ export const EditEmployeeSheet = () => {
   const { mutate, isPending: isPendingEdit } = useEditEmployee(id)
 
   const onSubmit = (values: EmployeeValues) => {
-    mutate(values, {
+    mutate({
+      ...values,
+      value: convertAmountToMiliunitis(String(values.value))
+    }, {
       onSuccess: () => {
         onClose();
       },
@@ -52,12 +56,14 @@ export const EditEmployeeSheet = () => {
     ? {
       id: data.id,
       name: data.name,
-      phone: data.phone
+      phone: data.phone,
+      value: convertAmountFromMiliunitis(Number(data.value))
     }
     : {
         id: '',
         name: '',
         phone: '',
+        value: '',
       };
 
   return (

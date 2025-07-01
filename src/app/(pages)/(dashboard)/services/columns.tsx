@@ -10,6 +10,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Actions } from './actions';
 import { EmployeeColumn } from './employee-column';
 import { HelperColumn } from './helper-column';
+import { Badge } from '@/components/ui/badge';
+import { convertAmountFromMiliunitis, formatCurrency } from '@/lib/utils';
 
 
 export type ResponseType = {
@@ -29,6 +31,7 @@ export type ResponseType = {
   helpers?: string | null,
   helpersId?: string | null,
   type_services: string[],
+  value: number | string
 }
 
 export const columns: ColumnDef<ResponseType>[] = [
@@ -125,12 +128,13 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
     cell: ({ row }) => {
       const date = row.getValue('date') as Date;
-      const newDate = `${date.toString().split('T')[0]}T0${
+      const newDate = `${date.toString().split('T')[0]}${
+        Number(date.toString().split('T')[1].split(':')[0]) < 10
+          ? 'T0'
+          : 'T'
+      }${
         Number(date.toString().split('T')[1].split(':')[0]) + 1
       }:${date.toString().split('T')[1].split(':')[1]}`;
-
-      console.log(date, newDate);
-      
 
       return <span>{format(newDate, 'dd MMMM, yyyy', { locale: ptBR })}</span>;
     },
@@ -191,6 +195,32 @@ export const columns: ColumnDef<ResponseType>[] = [
           id={row.original.id}
         />
       );
+    },
+  },
+  {
+    accessorKey: 'value',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Valor
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const amount = convertAmountFromMiliunitis(parseFloat(row.getValue('value')));
+      
+      return (
+        <Badge
+          className="text-xs px-3.5 py-2.5"
+          variant={amount < 0 ? 'destructive' : 'primary'}
+        >
+          {formatCurrency(amount)}
+        </Badge>
+      )
     },
   },
   {

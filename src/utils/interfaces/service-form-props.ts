@@ -1,5 +1,5 @@
 export type ServiceFormProps = {
-  employeeOptions: {label: string, value: string}[],
-  helperOptions: {label: string, value: string}[],
-  typeServicesOptions: {label: string, value: string}[],
+  employeeOptions: {label: string, value: string, cost: string | number}[],
+  helperOptions: {label: string, value: string, cost: string | number}[],
+  typeServicesOptions: {label: string, value: string, cost: string | number}[],
 }

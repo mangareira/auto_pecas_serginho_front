@@ -15,6 +15,7 @@ import { useDeleteHelper } from '@/utils/hooks/helper/api/useDeleteHelper';
 import { useGetHelper } from '@/utils/hooks/helper/api/useGetHelper';
 import { useEditHelper } from '@/utils/hooks/helper/api/useEditHelper';
 import { useOpenHelper } from '@/utils/hooks/helper/hooks/use-open-helper';
+import { convertAmountFromMiliunitis } from '@/lib/utils';
 
 export const EditHelperSheet = () => {
   const {id, onClose, isOpen} = useOpenHelper()
@@ -54,12 +55,14 @@ export const EditHelperSheet = () => {
     ? {
       id: data.id,
       name: data.name,
-      phone: data.phone
+      phone: data.phone,
+      value: convertAmountFromMiliunitis(Number(data.value))
     }
     : {
         id: '',
         name: '',
         phone: '',
+        value: ''
       };
 
   return (

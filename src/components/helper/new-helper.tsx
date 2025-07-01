@@ -9,6 +9,7 @@ import { HelperForm } from './helper-form';
 import { HelperValues } from '@/utils/schemas/helper-dto';
 import { useNewHelper } from '@/utils/hooks/helper/hooks/use-new-helper';
 import { useCreateHelper } from '@/utils/hooks/helper/api/useCreateHelper';
+import { convertAmountToMiliunitis } from '@/lib/utils';
 
 
 
@@ -18,7 +19,10 @@ export const NewHelperSheet = () => {
   const { mutate, isPending } = useCreateHelper();
 
   const onSubmit = (values: HelperValues) => {
-    mutate(values, {
+    mutate({
+      ...values,
+      value: convertAmountToMiliunitis(String(values.value))
+    }, {
       onSuccess: () => {
         onClose();
       },
@@ -39,6 +43,7 @@ export const NewHelperSheet = () => {
             id: '',
             name: '',
             phone: '',
+            value: ''
           }}
           disable={isPending}
           onSubmit={onSubmit}

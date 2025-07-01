@@ -12,6 +12,7 @@ import { useNewServices } from '@/utils/hooks/services/hooks/use-new-services';
 import { useGetEmployees } from '@/utils/hooks/employee/api/useGetEmployees';
 import { useGetHelpers } from '@/utils/hooks/helper/api/useGetHelpers';
 import { useGetTypeServices } from '@/utils/hooks/type-services/api/useGetTypeServices';
+import { convertAmountFromMiliunitis, convertAmountToMiliunitis } from '@/lib/utils';
 
 
 export const NewServiceSheet = () => {
@@ -24,7 +25,11 @@ export const NewServiceSheet = () => {
   const { data: dataTypeServices, isLoading: isLoadingTypeServices } = useGetTypeServices()
 
   const onSubmit = (values: ServicesValue) => {
-    mutate(values, {
+    
+    mutate({
+      ...values,
+      value: convertAmountToMiliunitis(String(values.value))
+    }, {
       onSuccess: () => {
         onClose();
       },
@@ -34,16 +39,19 @@ export const NewServiceSheet = () => {
   const employeeOptions = (dataEmployee ?? []).map((employee) => ({
     label: employee.name,
     value: employee.id,
+    cost: convertAmountFromMiliunitis(Number(employee.value)),
   }));
 
   const helperOptions = (dataHelper ?? []).map((helper) => ({
     label: helper.name,
     value: helper.id,
+    cost: convertAmountFromMiliunitis(Number(helper.value)),
   }));
 
   const typeServiceOptions = (dataTypeServices ?? []).map((type_services) => ({
     label: type_services.name,
     value: type_services.id,
+    cost: convertAmountFromMiliunitis(Number(type_services.value)),
   }));
 
   return (
@@ -69,6 +77,7 @@ export const NewServiceSheet = () => {
             phone: '',
             plate: '',
             vehicle: '',
+            value: ''
           }}
           disable={
             isPending &&  

@@ -17,6 +17,7 @@ import { useOpenServices } from '@/utils/hooks/services/hooks/use-open-type-serv
 import { useGetEmployees } from '@/utils/hooks/employee/api/useGetEmployees';
 import { useGetTypeServices } from '@/utils/hooks/type-services/api/useGetTypeServices';
 import { useGetHelpers } from '@/utils/hooks/helper/api/useGetHelpers';
+import { convertAmountFromMiliunitis, convertAmountToMiliunitis } from '@/lib/utils';
 
 export const EditServiceSheet = () => {
   const { isOpen, onClose, id } = useOpenServices();
@@ -35,13 +36,15 @@ export const EditServiceSheet = () => {
   const { mutate, isPending: isPendingEdit } = useEditServices(id)
 
   const onSubmit = (values: ServicesValue) => {
-    mutate(values, {
+    mutate({
+      ...values,
+      value: convertAmountToMiliunitis(String(values.value))
+    }, {
       onSuccess: () => {
         onClose();
       },
     });
   };
-
   const onDelete = async () => {
     const ok = await confirm();
 
@@ -57,20 +60,26 @@ export const EditServiceSheet = () => {
   const employeeOptions = (dataEmployee ?? []).map((employee) => ({
     label: employee.name,
     value: employee.id,
+    cost: convertAmountFromMiliunitis(Number(employee.value)),
   }));
 
   const helperOptions = (dataHelper ?? []).map((helper) => ({
     label: helper.name,
     value: helper.id,
+    cost: convertAmountFromMiliunitis(Number(helper.value)),
   }));
 
   const typeServiceOptions = (dataTypeServices ?? []).map((type_services) => ({
     label: type_services.name,
     value: type_services.id,
+    cost: convertAmountFromMiliunitis(Number(type_services.value)),
   }));
 
   const defaultValues = data
-    ? data
+    ? {
+      ...data,
+      type_services: data.type_services.map(service => service.id)
+    }
     : {
         id: '',
         client: '',
@@ -84,6 +93,7 @@ export const EditServiceSheet = () => {
         phone: '',
         plate: '',
         vehicle: '',
+        value: '',
         };
 
   return (
