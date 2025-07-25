@@ -36,6 +36,7 @@ export const NewAdminSheet = () => {
         </SheetHeader>
         <AdminForm
           defaultValues={{
+            id: '',
             name: '',
             email:'',
             password: ""

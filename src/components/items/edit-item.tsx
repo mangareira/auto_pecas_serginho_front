@@ -6,30 +6,33 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 
-import { AdminForm } from './admin-form';
-import { useOpenAdmin } from '@/utils/hooks/admin/hooks/use-open-admin';
-import { useGetAdmin } from '@/utils/hooks/admin/api/useGetAdmin';
 import { Loader2 } from 'lucide-react';
-import { useEditAdmin } from '@/utils/hooks/admin/api/useEditAdmin';
-import { AdminValues } from '@/utils/schemas/new-admin-dto';
 import { useConfirm } from '@/utils/hooks/useConfirm';
-import { useDeleteAdmin } from '@/utils/hooks/admin/api/useDeleteAdmin';
+import { convertAmountFromMiliunitis, convertAmountToMiliunitis } from '@/lib/utils';
+import { useOpenItems } from '@/utils/hooks/items/hooks/use-open-items';
+import { useDeleteItem } from '@/utils/hooks/items/api/useDeleteItem';
+import { useGetItem } from '@/utils/hooks/items/api/useGetItem';
+import { useEditItem } from '@/utils/hooks/items/api/useEditItem';
+import { ItemValue } from '@/utils/schemas/items-dto';
+import { ItemForm } from './item-form';
 
-export const EditAdminSheet = () => {
-  const { isOpen, onClose, id } = useOpenAdmin();
+export const EditItemSheet = () => {
+  const { isOpen, onClose, id } = useOpenItems();
   const [ConfirmDialog, confirm] = useConfirm(
     'Você tem certeza ?',
-    'Você esta prestes a deletar uma administrador'
+    'Você esta prestes a deletar um item'
   );
 
-  const {mutate: mutateDelete} = useDeleteAdmin(id)
+  const {mutate: mutateDelete} = useDeleteItem(id)
 
-  const { data, isLoading, isPending } = useGetAdmin(id)
+  const { data, isLoading, isPending } = useGetItem(id)
 
-  const { mutate, isPending: isPendingEdit } = useEditAdmin(id)
+  const { mutate, isPending: isPendingEdit } = useEditItem(id)
 
-  const onSubmit = (values: AdminValues) => {
-    mutate(values, {
+  const onSubmit = (values: ItemValue) => {
+    mutate({...values,
+      value: convertAmountToMiliunitis(String(values.value))
+    }, {
       onSuccess: () => {
         onClose();
       },
@@ -49,11 +52,17 @@ export const EditAdminSheet = () => {
   };
 
   const defaultValues = data
-    ? data
+    ? {
+      id: data.id,
+      name: data.name,
+      description: data.description,
+      value: convertAmountFromMiliunitis(Number(data.value))
+    }
     : {
-        id: '', 
+        id: '',
         name: '',
-        email: '',
+        description: '',
+        value: 0,
       };
 
   return (
@@ -62,15 +71,15 @@ export const EditAdminSheet = () => {
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent className="space-y-4 ">
           <SheetHeader>
-            <SheetTitle>Editar Administrativo</SheetTitle>
-            <SheetDescription>Edite um administrativo existente</SheetDescription>
+            <SheetTitle>Editar um Item</SheetTitle>
+            <SheetDescription>Edite um Item existente</SheetDescription>
           </SheetHeader>
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center">
               <Loader2 className="size-4 text-muted-foreground animate-spin" />
             </div>
           ) : (
-            <AdminForm
+            <ItemForm
               defaultValues={defaultValues}
               disable={isPending && isPendingEdit}
               id={id}

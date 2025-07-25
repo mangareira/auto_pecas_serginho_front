@@ -35,6 +35,7 @@ async function verifyAuthToken(tokenValue: string | undefined): Promise<boolean>
       algorithms: ['HS512'], 
     });
     return true;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (err: any) {
     if (err.code === 'ERR_JWT_EXPIRED') {
     } else if (err.code === 'ERR_JWS_SIGNATURE_VERIFICATION_FAILED') {

@@ -20,6 +20,10 @@ export const routes = [
     label: 'Tipos de serviços',
   },
   {
+    href: '/items',
+    label: 'Itens'
+  },
+  {
     href: '/admin',
     label: 'Admininstrativo',
   },
