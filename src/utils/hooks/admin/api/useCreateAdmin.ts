@@ -8,7 +8,7 @@ export const useCreateAdmin = () => {
   const mutation = useMutation<AdminValues, Error, AdminFormValues>({
     mutationFn: async (json) => {
       const res = await api.post<AdminValues>("/admin", json)
-      if(res.status === 400) throw new Error('Falha ao criar conta');
+      if(res.status === 400) throw new Error('Falha ao criar Admininstrador');
       return res.data;
     },
     onSuccess: () => {
@@ -17,7 +17,7 @@ export const useCreateAdmin = () => {
       toast.success('Conta criada com sucesso');
     },
     onError: () => {
-      toast.error('Falha ao criar conta');
+      toast.error('Falha ao criar Admininstrador');
     },
   });
   return mutation;

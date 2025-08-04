@@ -90,7 +90,7 @@ export const AdminForm = ({
           )}
         />
         <Button className="w-full" disabled={disable}>
-          {id ? 'Salvar mudanças' : 'Criar conta'}
+          {id ? 'Salvar mudanças' : 'Criar admininstrador'}
         </Button>
         {!!id && (
           <Button

@@ -18,6 +18,7 @@ import { useGetEmployees } from '@/utils/hooks/employee/api/useGetEmployees';
 import { useGetTypeServices } from '@/utils/hooks/type-services/api/useGetTypeServices';
 import { useGetHelpers } from '@/utils/hooks/helper/api/useGetHelpers';
 import { convertAmountFromMiliunitis, convertAmountToMiliunitis } from '@/lib/utils';
+import { useGetItems } from '@/utils/hooks/items/api/useGetItems';
 
 export const EditServiceSheet = () => {
   const { isOpen, onClose, id } = useOpenServices();
@@ -32,6 +33,8 @@ export const EditServiceSheet = () => {
   const { data: dataEmployee, isLoading: isLoadingEmployee } = useGetEmployees()
   const { data: dataHelper, isLoading: isLoadingHelper } = useGetHelpers()
   const { data: dataTypeServices, isLoading: isLoadingTypeServices } = useGetTypeServices()
+  const { data: dataItems, isLoading: isLoadingItems } = useGetItems()
+  
 
   const { mutate, isPending: isPendingEdit } = useEditServices(id)
 
@@ -75,18 +78,36 @@ export const EditServiceSheet = () => {
     cost: convertAmountFromMiliunitis(Number(type_services.value)),
   }));
 
+  const itemsOptions = (dataItems ?? []).map((items) => ({
+    label: items.name,
+    value: items.id,
+    cost: convertAmountFromMiliunitis(Number(items.value)),
+  }));
+
   const defaultValues = data
     ? {
       ...data,
-      type_services: data.type_services.map(service => service.id)
+      type_services: data.type_services.map(service => service.id),
+      items: data.items.map(item => item.id)
     }
     : {
         id: '',
         client: '',
         date: new Date(),
-        employees: '',
-        helpers: '',
+        employees: {
+          id: '',
+          name: '',
+          phone: '',
+          value: 0
+        } ,
+        helpers: {
+          id: '',
+          name: '',
+          phone: '',
+          value: 0
+        },
         type_services: [],
+        items: [],
         diagnoses: '',
         entreprise: false,
         particular: false,
@@ -117,9 +138,11 @@ export const EditServiceSheet = () => {
                   isPendingEdit && 
                   isLoadingEmployee && 
                   isLoadingTypeServices &&
-                  isLoadingHelper
+                  isLoadingHelper &&
+                  isLoadingItems
               }
               id={id}
+              itemsOptions={itemsOptions}
               onDelete={onDelete}
               onSubmit={onSubmit}
               employeeOptions={employeeOptions}

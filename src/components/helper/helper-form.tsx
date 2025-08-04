@@ -92,7 +92,7 @@ export const HelperForm = ({
           )}
         />
         <Button className="w-full" disabled={disable}>
-          {id ? 'Salvar mudanças' : 'Criar conta'}
+          {id ? 'Salvar mudanças' : 'Criar ajudante'}
         </Button>
         {!!id && (
           <Button

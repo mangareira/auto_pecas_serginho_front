@@ -91,7 +91,7 @@ export const EmployeeForm = ({
           )}
         />
         <Button className="w-full" disabled={disable}>
-          {id ? 'Salvar mudanças' : 'Criar conta'}
+          {id ? 'Salvar mudanças' : 'Criar colaborador'}
         </Button>
         {!!id && (
           <Button

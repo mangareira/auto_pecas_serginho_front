@@ -22,6 +22,7 @@ import { CheckBoxInput } from '../check-box-input';
 import { useEffect } from 'react';
 import { TotalValueDisplay } from '../total-value';
 import { cn } from '@/lib/utils';
+import { Selectitems } from '../selectItems';
 
 export const ServiceForm = ({
   onSubmit,
@@ -32,6 +33,7 @@ export const ServiceForm = ({
   employeeOptions,
   helperOptions,
   typeServicesOptions,
+  itemsOptions
 }: FormProps<ServicesValue, ServiceFormProps>) => {
   const form = useForm<ServicesValue>({
     resolver: zodResolver(servicesSchema),
@@ -65,8 +67,13 @@ export const ServiceForm = ({
         if (helper) total += Number(helper.cost) || 0;
       }
 
-      const profitMargin = 1.2;
-      total = total * profitMargin;
+      const items = form.watch('items')
+      if(items) {
+        items.forEach(itemId => {
+          const item = itemsOptions.find(i => i.value === itemId)
+          if(item) total += Number(item.cost) || 0
+        })
+      }
 
       form.setValue('value', total);
     };
@@ -74,7 +81,9 @@ export const ServiceForm = ({
     const subscription = form.watch((value, { name }) => {
       if (name === 'type_services' || 
           name === 'employeesId' || 
-          name === 'helpersId') {
+          name === 'helpersId' || 
+          name === 'items'
+        ) {
         calculateTotal();
       }
     });
@@ -82,10 +91,13 @@ export const ServiceForm = ({
     calculateTotal();
 
     return () => subscription.unsubscribe();
-  }, [employeeOptions, helperOptions, typeServicesOptions, form]);
+  }, [employeeOptions, helperOptions, typeServicesOptions, form, itemsOptions]);
 
 
   const handleSubmit = (values: ServicesValue) => {
+
+    console.log(values);
+    
     onSubmit({
       ...values,
       particular: values.clientType === 'particular',
@@ -281,6 +293,25 @@ export const ServiceForm = ({
                   onChange={field.onChange}
                   placeholder='Selecione um Ajudante'
                   options={helperOptions}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="items"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Itens</FormLabel>
+              <FormControl>
+                <Selectitems 
+                  disable={disable}
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder='Adcione algum item'
+                  options={itemsOptions}
+                  isMulti={true}
                 />
               </FormControl>
             </FormItem>

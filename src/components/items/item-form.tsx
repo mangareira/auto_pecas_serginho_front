@@ -85,7 +85,7 @@ export const ItemForm = ({
           )}
           />
         <Button className="w-full" disabled={disable}>
-          {id ? 'Salvar mudanças' : 'Criar conta'}
+          {id ? 'Salvar mudanças' : 'Criar item'}
         </Button>
         {!!id && (
           <Button

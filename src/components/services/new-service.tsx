@@ -13,6 +13,7 @@ import { useGetEmployees } from '@/utils/hooks/employee/api/useGetEmployees';
 import { useGetHelpers } from '@/utils/hooks/helper/api/useGetHelpers';
 import { useGetTypeServices } from '@/utils/hooks/type-services/api/useGetTypeServices';
 import { convertAmountFromMiliunitis, convertAmountToMiliunitis } from '@/lib/utils';
+import { useGetItems } from '@/utils/hooks/items/api/useGetItems';
 
 
 export const NewServiceSheet = () => {
@@ -23,6 +24,7 @@ export const NewServiceSheet = () => {
   const { data: dataEmployee, isLoading: isLoadingEmployee } = useGetEmployees()
   const { data: dataHelper, isLoading: isLoadingHelper } = useGetHelpers()
   const { data: dataTypeServices, isLoading: isLoadingTypeServices } = useGetTypeServices()
+  const { data: dataItems, isLoading: isLoadingItems } = useGetItems()
 
   const onSubmit = (values: ServicesValue) => {
     
@@ -54,6 +56,12 @@ export const NewServiceSheet = () => {
     cost: convertAmountFromMiliunitis(Number(type_services.value)),
   }));
 
+  const itemsOptions = (dataItems ?? []).map((items) => ({
+    label: items.name,
+    value: items.id,
+    cost: convertAmountFromMiliunitis(Number(items.value)),
+  }));
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="space-y-4 overflow-y-auto">
@@ -68,8 +76,18 @@ export const NewServiceSheet = () => {
             id: '',
             client: '',
             date: new Date(),
-            employees: '',
-            helpers: '',
+            employees: {
+              id: '',
+              name: '',
+              phone: '',
+              value: 0
+            },
+            helpers:  {
+              id: '',
+              name: '',
+              phone: '',
+              value: 0
+            },
             type_services: [],
             diagnoses: '',
             enterprise: false,
@@ -77,15 +95,18 @@ export const NewServiceSheet = () => {
             phone: '',
             plate: '',
             vehicle: '',
-            value: ''
+            value: '',
+            items: [],
           }}
           disable={
             isPending &&  
             isLoadingEmployee && 
             isLoadingTypeServices &&
-            isLoadingHelper
+            isLoadingHelper &&
+            isLoadingItems
           }
           onSubmit={onSubmit}
+          itemsOptions={itemsOptions}
           employeeOptions={employeeOptions}
           helperOptions={helperOptions}
           typeServicesOptions={typeServiceOptions}
