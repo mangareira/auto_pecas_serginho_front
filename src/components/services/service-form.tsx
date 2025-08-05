@@ -96,8 +96,6 @@ export const ServiceForm = ({
 
   const handleSubmit = (values: ServicesValue) => {
 
-    console.log(values);
-    
     onSubmit({
       ...values,
       particular: values.clientType === 'particular',

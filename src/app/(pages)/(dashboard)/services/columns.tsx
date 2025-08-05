@@ -26,9 +26,19 @@ export type ResponseType = {
   clientType?: 'particular' | 'entreprise',
   phone: string,
   diagnoses: string,
-  employees?: string,
+  employees?: {
+    id: string,
+    name: string,
+    phone: string,
+    value: number,
+  },
   employeesId?: string,
-  helpers?: string | null,
+  helpers?: {
+    id: string,
+    name: string,
+    phone: string,
+    value: number,
+  } | null,
   helpersId?: string | null,
   type_services: string[],
   value: number | string

@@ -1,4 +1,7 @@
+import { Period } from '@/utils/interfaces/format-period-props';
 import { type ClassValue, clsx } from 'clsx';
+import { format, subDays } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
@@ -25,6 +28,46 @@ export function formatCurrency(value: number) {
     currency: 'BRL',
     minimumFractionDigits: 2,
   }).format(value);
+}
+
+export function formatDateRange(period?: Period) {
+  const defaultTo = new Date();
+  const defaultFrom = subDays(defaultTo, 30);
+
+  if (!period?.from) {
+    return `${format(defaultFrom, 'LLL dd', { locale: ptBR })} - ${format(defaultTo, 'LLL dd, y', { locale: ptBR })}`;
+  }
+
+  if (period.to) {
+    return `${format(period.from, 'LLL dd', { locale: ptBR })} - ${format(period.to, 'LLL dd, y', { locale: ptBR })}`;
+  }
+
+  return format(period.from, 'LLL dd, y', { locale: ptBR });
+}
+
+export function dateRangeISO(period?: Period) {
+  if(period?.from && period.to) {
+    const newDateFrom = `${new Date(String(period?.from)).toISOString().split('T')[0]}${
+      Number(new Date(String(period?.from)).toISOString().split('T')[1].split(':')[0]) < 10
+        ? 'T0'
+        : 'T'
+    }${
+      Number(new Date(String(period?.from)).toISOString().split('T')[1].split(':')[0]) + 1
+    }:${new Date(String(period?.from)).toISOString().split('T')[1].split(':')[1]}`;
+  
+    const newDateTo = `${new Date(String(period?.to)).toISOString().split('T')[0]}${
+      Number(new Date(String(period?.to)).toISOString().split('T')[1].split(':')[0]) < 10
+        ? 'T0'
+        : 'T'
+    }${
+      Number(new Date(String(period?.to)).toISOString().split('T')[1].split(':')[0]) + 1
+    }:${new Date(String(period?.to)).toISOString().split('T')[1].split(':')[1]}`;
+    
+    return {
+      from: new Date(newDateFrom),
+      to: new Date(newDateTo)
+    }
+  }
 }
 
 export function calculcatePercentageChange(current: number, previous: number) {

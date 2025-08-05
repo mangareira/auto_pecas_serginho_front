@@ -14,6 +14,7 @@ export const useCreateItem = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['items'] });
       queryClient.invalidateQueries({ queryKey: ['item'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Item criado com sucesso');
     },
     onError: () => {

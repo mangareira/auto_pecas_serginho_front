@@ -20,6 +20,7 @@ export const useEditEmployee = (id?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employee', { id }] });
       queryClient.invalidateQueries({ queryKey: ['employees'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Colaborador autalizado');
     },
     onError: () => {

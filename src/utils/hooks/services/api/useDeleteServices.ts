@@ -19,6 +19,7 @@ export const useDeleteServices = (id?: string) => {
       queryClient.invalidateQueries({ queryKey: ['employee'] })
       queryClient.invalidateQueries({ queryKey: ['helpers'] })
       queryClient.invalidateQueries({ queryKey: ['helper'] })
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Serviço deletado');
     },
     onError: () => {

@@ -18,6 +18,7 @@ export const useEditServices = (id?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['service', { id }] });
       queryClient.invalidateQueries({ queryKey: ['services'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Serviço autalizado');
     },
     onError: () => {

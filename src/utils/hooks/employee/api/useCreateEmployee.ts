@@ -14,6 +14,7 @@ export const useCreateEmployee = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
       queryClient.invalidateQueries({ queryKey: ['employee'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Colaborador criado com sucesso');
     },
     onError: () => {

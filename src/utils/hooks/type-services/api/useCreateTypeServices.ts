@@ -14,6 +14,7 @@ export const useCreateTypeServices = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['type_services'] });
       queryClient.invalidateQueries({ queryKey: ['type_service'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Tipo de Serviço criado com sucesso');
     },
     onError: () => {

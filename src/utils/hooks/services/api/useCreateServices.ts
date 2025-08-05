@@ -18,6 +18,7 @@ export const useCreateServices = () => {
       queryClient.invalidateQueries({ queryKey: ['employee'] })
       queryClient.invalidateQueries({ queryKey: ['helpers'] })
       queryClient.invalidateQueries({ queryKey: ['helper'] })
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Serviço criado com sucesso');
     },
     onError: () => {

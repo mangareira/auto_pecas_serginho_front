@@ -16,6 +16,7 @@ export const useDeleteBulkServices = () => {
       queryClient.invalidateQueries({ queryKey: ['employee'] })
       queryClient.invalidateQueries({ queryKey: ['helpers'] })
       queryClient.invalidateQueries({ queryKey: ['helper'] })
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Serviços deletados');
     },
     onError: () => {

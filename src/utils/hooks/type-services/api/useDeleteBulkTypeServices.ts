@@ -12,6 +12,7 @@ export const useDeleteBulkTypeServices = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['type_services'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Tipos de Serviços deletados');
     },
     onError: () => {

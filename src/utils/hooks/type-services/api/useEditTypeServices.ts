@@ -18,6 +18,7 @@ export const useEditTypeServices = (id?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['type_service', { id }] });
       queryClient.invalidateQueries({ queryKey: ['type_services'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Tipo de Serviço autalizado');
     },
     onError: () => {

@@ -12,6 +12,7 @@ export const useDeleteBulkItems = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['items'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Items deletados');
     },
     onError: () => {

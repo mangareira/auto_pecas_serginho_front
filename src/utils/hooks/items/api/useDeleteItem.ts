@@ -15,6 +15,7 @@ export const useDeleteItem = (id?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['item', { id }] });
       queryClient.invalidateQueries({ queryKey: ['items'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Item deletado');
     },
     onError: () => {

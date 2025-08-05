@@ -12,6 +12,7 @@ export const useDeleteBulkEmployee = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['employees'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Colaboradores deletados');
     },
     onError: () => {

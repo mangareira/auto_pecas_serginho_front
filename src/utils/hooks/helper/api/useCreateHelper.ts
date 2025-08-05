@@ -13,6 +13,7 @@ export const useCreateHelper = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['helpers'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       queryClient.invalidateQueries({ queryKey: ['helper'] });
       toast.success('Ajudante criado com sucesso');
     },

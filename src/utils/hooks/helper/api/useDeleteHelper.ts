@@ -14,6 +14,7 @@ export const useDeleteHelper = (id?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['helper', { id }] });
       queryClient.invalidateQueries({ queryKey: ['helpers'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Ajudante deletado');
     },
     onError: () => {

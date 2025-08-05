@@ -12,6 +12,7 @@ export const useDeleteBulkHelper = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['helpers'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Ajudantes deletados');
     },
     onError: () => {

@@ -20,6 +20,7 @@ export const useEditHelper = (id?: string) => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['helper', { id }] });
       queryClient.invalidateQueries({ queryKey: ['helpers'] });
+      queryClient.invalidateQueries({ queryKey: ['summary'] });
       toast.success('Ajudantes autalizado');
     },
     onError: () => {

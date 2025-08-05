@@ -6,6 +6,7 @@ import { cn, formatCurrency, formatPercentage } from '@/lib/utils';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -46,6 +47,7 @@ type IconVariant = VariantProps<typeof iconVariant>;
 interface DataCardProps extends BoxVariant, IconVariant {
   icon: IconType;
   title: string;
+  dateRange: string
   value?: number;
   percentageChange?: number;
 }
@@ -56,12 +58,16 @@ export const DataCard = ({
   percentageChange = 0,
   value = 0,
   variant,
+  dateRange
 }: DataCardProps) => {
   return (
     <Card className="border-none drop-shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between gap-x-4">
         <div className="space-y-2">
           <CardTitle className="text-2xl line-clamp-1">{title}</CardTitle>
+          <CardDescription className="line-clamp-1">
+            {dateRange}
+          </CardDescription>
         </div>
         <div className={cn(boxVariant({ variant }))}>
           <Icon className={cn(iconVariant({ variant }))} />
