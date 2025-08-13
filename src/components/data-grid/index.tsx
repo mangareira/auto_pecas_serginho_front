@@ -35,17 +35,17 @@ export const DataGrid = () => {
           dateRange={dateRangeLabel}
           variant={"success"}
           icon={FaPiggyBank}
-          percentageChange={data?.incomeChange}
+          percentageChange={data?.remainingChange}
           title="Renda dos serviços"
-          value={data?.incomeAmount}
+          value={data?.remainingAmount}
         />
         <DataCard
           dateRange={dateRangeLabel}
           variant={"default"}
           icon={FaArrowTrendUp}
-          percentageChange={data?.remainingChange}
+          percentageChange={data?.incomeChange}
           title="Renda do mes"
-          value={data?.remainingAmount}
+          value={data?.incomeAmount}
         />
       </div>
     </div>

@@ -23,6 +23,7 @@ export const PieVariant = ({ data }: SpendingPieProps) => {
           content={({ payload }) => {
             return (
               <ul className="flex flex-col space-y-2">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any*/}
                 {payload?.map((entry: any, index) => (
                   <li
                   key={`item-${index}`}

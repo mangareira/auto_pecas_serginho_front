@@ -1,5 +1,6 @@
 import { Separator } from './separator';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const EmployeeTooltip = ({ active, payload }: any) => {
   if (!active) return null;
 

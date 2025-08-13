@@ -51,27 +51,44 @@ async function verifyAuthToken(tokenValue: string | undefined): Promise<boolean>
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  const accessTokenCookieName = 'access_token'; 
-  const accessToken = request.cookies.get(accessTokenCookieName)?.value;
-
+  // Rotas públicas
   if (
-    pathname.startsWith('/_next/') ||
-    pathname.startsWith('/static/') ||
-    pathname.startsWith('/images/') ||
-    pathname.startsWith('/favicon.ico')
+    pathname.startsWith("/_next/") ||
+    pathname.startsWith("/static/") ||
+    pathname.startsWith("/images/") ||
+    pathname.startsWith("/favicon.ico") ||
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/login/")
   ) {
     return NextResponse.next();
   }
 
-  if (pathname === '/login' || pathname.startsWith('/login/')) {
-    return NextResponse.next();
-  }
-
+  const accessToken = request.cookies.get("access_token")?.value;
   const isAuthenticated = await verifyAuthToken(accessToken);
 
   if (!isAuthenticated) {
-    const loginUrl = new URL('/login', request.url);
-    loginUrl.searchParams.set('redirectedFrom', pathname);
+    const refreshToken = request.cookies.get("refresh_token")?.value;
+
+    if (refreshToken) {
+      try {
+        const refreshRes = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/login/refresh-token`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+          }
+        );
+
+        if (refreshRes.ok) {
+          return NextResponse.next();
+        }
+      } catch (err) {
+        console.error("Erro ao tentar refresh token:", err);
+      }
+    }
+    const loginUrl = new URL("/login", request.url);
+    loginUrl.searchParams.set("redirectedFrom", pathname);
     return NextResponse.redirect(loginUrl);
   }
 

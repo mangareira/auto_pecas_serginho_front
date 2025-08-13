@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "@/providers/providers";
 import { Toaster } from "sonner";
-import { SheetProvider } from "@/providers/sheet-provider";
+import RefreshTokenHandler from "@/lib/refresh-token";
 
 export const metadata: Metadata = {
   title: "Auto peças serginho",
@@ -14,12 +14,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
       <body>
         <Providers>
           <Toaster />
-          <SheetProvider />
+          <RefreshTokenHandler />
           {children}
         </Providers>
       </body>

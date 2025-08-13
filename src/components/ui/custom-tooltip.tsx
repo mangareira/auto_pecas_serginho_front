@@ -4,6 +4,7 @@ import { ptBR } from 'date-fns/locale';
 import { convertAmountFromMiliunitis, formatCurrency } from '@/lib/utils';
 import { Separator } from './separator';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const CustomTooltip = ({ active, payload }: any) => {
   if (!active) return null;
 
